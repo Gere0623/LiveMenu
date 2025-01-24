@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+a-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#custom-ar-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#custom-ar-button:hover {
+    background-color: #0056b3;
+}
+
+#pulsante{
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    border-radius: 10%;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
