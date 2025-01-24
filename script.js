@@ -1,4 +1,4 @@
-var elem_lista = `<div class="row m-0 my-2">
+var elem_lista = `<div class="row m-0 my-2 elemento">
             <div class="col rounded bg-light py-2 px-2">
                 <div class="row p-2">
                     <div class="col-4 d-flex justify-content-center">
