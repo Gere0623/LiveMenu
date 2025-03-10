@@ -10,6 +10,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
     <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         body {
             margin: 0;
             overflow: hidden;
@@ -34,7 +38,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transform: translate(-50%, 0);
             transition-duration: 0.2s;
@@ -47,34 +51,35 @@
             top: 0px;
             padding: 10px 3% 10px 3%;
             width: 100%;
-            background-color: #00000053;
+            background-color: #f8f9fa97;
             color: white;
             font-size: 1.7em;
             font-weight: 600;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1;
             display: flex;
             justify-content: space-between;
 
         }
 
         #go-back-button {
-            background-color: rgba(0, 0, 0, 0.315);
+            background-color: rgba(255, 255, 255, 0.873);
             display: flex;
             padding: 7px;
             border-radius: 10px;
-            color: white;
+            color: rgb(30, 30, 30);
             font-size: 1em;
             border: none;
             transition-duration: 0.2s;
             align-items: center;
+            font-weight: bold;
 
         }
 
         #go-back-button:active {
-            background-color: #0000008d;
+            background-color: #7979798d;
         }
 
         #ar-button:active {
@@ -106,10 +111,10 @@
         }
 
         .ingrediente_item{
-            background-color: rgba(255, 255, 255, 0.541);
+            background-color: rgba(255, 255, 255, 0.741);
             display: flex;
             flex-direction: row;
-            padding: 10px;
+            padding: 5px;
             margin: 5px;
             border-radius: 20px;
             justify-content: space-between;
@@ -122,13 +127,13 @@
         }
 
         .immagine_ingrediente{
-            border-radius: 20px;
+            border-radius: 1em;
             width: 25%;
         }
 
         .testo_ingrediente{
             font-weight: 700;
-            font-size: 1.5em;
+            font-size: 1.2em;
             display: flex;
             align-items: center;
             margin: 0;
@@ -153,6 +158,7 @@
         .rimuovi, .aggiungi{
             padding: 15px;
             margin: 2px;
+            transition-duration: 0.2s;
         }
 
         .icona_svg{
@@ -160,11 +166,12 @@
         }
 
         #button_allergeni{
-            background-color: rgba(0, 0, 0, 0.315);
+            background-color: rgba(255, 255, 255, 0.873);
             display: flex;
             padding: 7px 15px;
             border-radius: 10px;
-            color: white;
+            color: rgb(30, 30, 30);
+            font-weight: bold;
             font-size: 1em;
             border: none;
             transition-duration: 0.2s;
@@ -172,6 +179,43 @@
 
         p {
             margin: 0;
+        }
+
+        .rimuovi:active{
+            background-color: darkred;
+        }
+
+        .aggiungi:active{
+            background-color: darkgreen;
+        }
+
+        .deselected{
+            opacity: 0.2;
+        }
+
+        #pop_up_allergeni{
+            display: none;
+            flex-direction: column;
+            align-items: stretch;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 25% 5% 5% 5%;
+            z-index: 2;
+        }
+
+
+        #pop_up_allergeni_nest{
+            border-radius: 30px;
+            padding: 5%;
+            background-color: rgba(255, 255, 255, 0.725);
+            transition-duration: 0.5s;
+            
+            color: rgb(0, 0, 0);
+            font-size: 1.4em;
+            font-weight: 600;
         }
 
     </style>
@@ -196,68 +240,95 @@
             </button>
         </a>
 
-        <button id="button_allergeni">
+        <button id="button_allergeni" onclick="mostra_allergeni()">
             <p>Allergeni</p>
         </button>
+    </div>
+
+    <div id="pop_up_allergeni" onclick="nascondi_allergeni()">
+        <div id="pop_up_allergeni_nest">
+        <ul id="lista_allergeni">
+            </ul>
+        </div>
     </div>
 
     <div id="ingredienti">
         <ul>
 
 
-            <li class="ingrediente_item">
+            <li class="ingrediente_item" id="guanciale">
                 <div style="display: flex;">
-                    <img src="imgs/caffe.jpg" alt="caffe" class="immagine_ingrediente">
-                    <p class="testo_ingrediente" style="margin-left: 0.5em;">caffe</p>
+                    <img src="imgs/guanciale.jpg" alt="guanciale" class="immagine_ingrediente">
+                    <p class="testo_ingrediente" style="margin-left: 0.5em;">Guanciale</p>
                 </div>
                 
                 <div class="scelta_ingrediente" style="display: flex;">
                     
-                    <button class="rimuovi" onclick="">
+                    <button class="rimuovi" onclick="rimuoviIngrediente(this)">
                         <img src="imgs/rimuovi.svg" alt="rimuovi" class="icona_svg">
                     </button>
 
-                    <button class="aggiungi" onclick="">
+                    <button class="aggiungi" onclick="aggiungiIngrediente(this)">
                         <img src="imgs/aggiungi.svg" alt="rimuovi" class="icona_svg">
                     </button>             
                 </div>
             </li>
 
-            <li class="ingrediente_item">
+            <li class="ingrediente_item" id="uova">
                 <div style="display: flex;">
-                    <img src="imgs/caffe.jpg" alt="caffe" class="immagine_ingrediente">
-                    <p class="testo_ingrediente" style="margin-left: 0.5em;">caffe</p>
+                    <img src="imgs/uova.jpg" alt="uova" class="immagine_ingrediente">
+                    <p class="testo_ingrediente" style="margin-left: 0.5em;">Uova</p>
                 </div>
                 
                 <div class="scelta_ingrediente" style="display: flex;">
                     
-                    <button class="rimuovi" onclick="">
+                    <button class="rimuovi" onclick="rimuoviIngrediente(this)">
                         <img src="imgs/rimuovi.svg" alt="rimuovi" class="icona_svg">
                     </button>
 
-                    <button class="aggiungi" onclick="">
+                    <button class="aggiungi" onclick="aggiungiIngrediente(this)">
                         <img src="imgs/aggiungi.svg" alt="rimuovi" class="icona_svg">
                     </button>             
                 </div>
             </li>
 
-            <li class="ingrediente_item">
+            <li class="ingrediente_item" id="pecorino romano">
                 <div style="display: flex;">
-                    <img src="imgs/caffe.jpg" alt="caffe" class="immagine_ingrediente">
-                    <p class="testo_ingrediente" style="margin-left: 0.5em;">caffe</p>
+                    <img src="imgs/pecorino_romano.jpg" alt="pecorino romano" class="immagine_ingrediente">
+                    <p class="testo_ingrediente" style="margin-left: 0.5em;">Pecorino Romano</p>
                 </div>
                 
                 <div class="scelta_ingrediente" style="display: flex;">
                     
-                    <button class="rimuovi" onclick="">
+                    <button class="rimuovi" onclick="rimuoviIngrediente(this)">
                         <img src="imgs/rimuovi.svg" alt="rimuovi" class="icona_svg">
                     </button>
 
-                    <button class="aggiungi" onclick="">
+                    <button class="aggiungi" onclick="aggiungiIngrediente(this)">
                         <img src="imgs/aggiungi.svg" alt="rimuovi" class="icona_svg">
                     </button>             
                 </div>
             </li>
+
+            <li class="ingrediente_item" id="pepe nero">
+                <div style="display: flex;">
+                    <img src="imgs/pepe_nero.jpg" alt="pepe nero" class="immagine_ingrediente">
+                    <p class="testo_ingrediente" style="margin-left: 0.5em;">Pepe nero</p>
+                </div>
+                
+                <div class="scelta_ingrediente" style="display: flex;">
+                    
+                    <button class="rimuovi" onclick="rimuoviIngrediente(this)">
+                        <img src="imgs/rimuovi.svg" alt="rimuovi" class="icona_svg">
+                    </button>
+
+                    <button class="aggiungi" onclick="aggiungiIngrediente(this)">
+                        <img src="imgs/aggiungi.svg" alt="rimuovi" class="icona_svg">
+                    </button>             
+                </div>
+            </li>
+
+            
 
             
 
@@ -278,17 +349,164 @@
         <a-entity camera></a-entity>
     </a-scene>
 
-    <script>
+    <script defer>
         
-        // comportamento del pulsante AR
+        function equalsIgnoreCase(string1, string2) {
+            return string1.toLowerCase() === string2.toLowerCase();
+        }
+
         const arButton = document.getElementById('ar-button');
         arButton.addEventListener('click', () => {
-            // Simula il clic sul pulsante AR standard
             const arButton = document.querySelector('.a-enter-ar-button');
             if (arButton) {
                 arButton.click();
             }
         });
+
+
+        let allergeni_visibili = false;
+
+        function mostra_allergeni(){
+            allergeni_visibili = true;
+            document.getElementById("pop_up_allergeni").style.display = "flex";
+        }
+
+        function nascondi_allergeni(){
+            allergeni_visibili = false;
+            document.getElementById("pop_up_allergeni").style.display = "none";
+        }
+
+        let selected_ingredient = [ {nome: "Guanciale", scelto: true}, 
+                                    {nome: "Uova", scelto: false}, 
+                                    {nome: "Pecorino Romano", scelto: false}, 
+                                    {nome: "Pepe nero", scelto: true} ];
+
+        let ingredienti = document.querySelectorAll(".ingrediente_item");
+
+
+
+
+
+
+
+        
+        /// PER MODIFICARE GLI ALLERGENI ///
+
+
+        let lista_allergeni_base = ["Glutine"];
+        let lista_allergeni = [ {nome: "Uova", ingrediente: "Uova", scelto: false}, 
+                                {nome: "Lattosio", ingrediente: "Pecorino Romano", scelto: false} ];
+
+
+
+
+
+        function update_allergeni(){
+            
+            for(let i = 0; i < selected_ingredient.length; i++){
+                for(let j = 0; j < lista_allergeni.length; j++){
+                    if(equalsIgnoreCase(selected_ingredient[i].nome, lista_allergeni[j].ingrediente) && selected_ingredient[i].scelto){
+                        lista_allergeni[j].scelto = true;
+                    }
+                    else if(equalsIgnoreCase(selected_ingredient[i].nome, lista_allergeni[j].ingrediente) && !selected_ingredient[i].scelto){
+                        lista_allergeni[j].scelto = false;
+                    }
+                    else{
+
+                    }
+                }
+            }
+
+            let lista_allergeni_item = document.getElementById("lista_allergeni");
+
+            lista_allergeni_item.innerHTML = "";
+
+            for(let i = 0; i < lista_allergeni_base.length; i++){
+                let nuovo_item = document.createElement("li");
+                nuovo_item.innerHTML = lista_allergeni_base[i];
+                lista_allergeni_item.appendChild(nuovo_item);
+            }
+
+            for(let i = 0; i < lista_allergeni.length; i++){
+                if(lista_allergeni[i].scelto){
+                    let nuovo_item = document.createElement("li");
+                    nuovo_item.innerHTML = lista_allergeni[i].nome;
+                    lista_allergeni_item.appendChild(nuovo_item);
+                }   
+            }
+        }
+
+        update_allergeni();
+        
+
+
+        
+
+
+        
+
+        
+
+
+        
+
+        for (let i = 0; i < selected_ingredient.length; i++) {
+            if(selected_ingredient[i].scelto){
+                ingredienti[i].getElementsByClassName("scelta_ingrediente")[0].getElementsByClassName("rimuovi")[0].classList.remove("deselected");
+
+                ingredienti[i].getElementsByClassName("scelta_ingrediente")[0].getElementsByClassName("aggiungi")[0].classList.add("deselected");
+            }
+            else{
+                ingredienti[i].getElementsByClassName("scelta_ingrediente")[0].getElementsByClassName("rimuovi")[0].classList.add("deselected");
+
+                ingredienti[i].getElementsByClassName("scelta_ingrediente")[0].getElementsByClassName("aggiungi")[0].classList.remove("deselected");
+            }
+        }
+
+        function aggiungiIngrediente(button){
+
+            if(!button.classList.contains("deselected")){
+
+                for(let i = 0; i < selected_ingredient.length; i++){
+
+                    if(equalsIgnoreCase(button.parentNode.parentNode.id, selected_ingredient[i].nome)){
+                        
+                        selected_ingredient[i].scelto = true;
+
+                        button.classList.add("deselected");
+                        button.previousElementSibling.classList.remove("deselected");
+                    }    
+                }
+
+            }
+
+            update_allergeni();
+        }
+
+        function rimuoviIngrediente(button){
+            
+            if(!button.classList.contains("deselected")){
+                
+                for(let i = 0; i < selected_ingredient.length; i++){
+
+                    if(equalsIgnoreCase(button.parentNode.parentNode.id, selected_ingredient[i].nome)){
+                        selected_ingredient[i].scelto = false;
+
+                        button.classList.add("deselected");
+                        button.nextElementSibling.classList.remove("deselected");
+                    }    
+                }
+
+            }
+
+            update_allergeni();
+        }
+
+
+
+        
+
+
     </script>
 
 </body>
