@@ -5,9 +5,9 @@
 
 // !!! temporaneo
 
-var elem_lista = `<a href="#">
+var elem_lista = `<a href="#" class="primo">
                     <div class="row m-0 my-2">
-                        <div class="col rounded bg-light py-2 px-2">
+                        <div class="col bg-light py-2 px-2 item">
                             <div class="row p-2">
                                 <div class="col-4 d-flex justify-content-center">
                                     <img class="img-fluid" src="img/hamburger.png" alt="hamburger">
