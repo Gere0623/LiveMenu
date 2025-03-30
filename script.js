@@ -21,9 +21,10 @@ var elem_lista = `<a href="#" class="primo">
                     </div>
                 </a>`;
 
-function popolaLista() {
+/* function popolaLista() {
     for (let i = 0; i < 10; i++)
         document.getElementById("lista").innerHTML += elem_lista;
 }
 
 popolaLista();
+*/
